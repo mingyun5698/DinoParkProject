@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html, body {
+            height: 100%; /* 전체 화면 높이 설정 */
+            margin: 0; /* 기본 여백 제거 */
+        }
+
+        body::after {
+            content: "";
+            background-image:
+                    url(https://cdn.pixabay.com/photo/2017/11/12/13/37/forest-2942477_1280.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            height: 50vh; /* 화면 높이 전체 사용 */
+        }
+        /* 링크 스타일 */
+        a {
+            text-decoration: none; /* 모든 링크의 밑줄 제거 */
+            color: green;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 50%; /* 테이블 폭을 50%로 설정 */
+            margin: 20px auto; /* 중앙 정렬 */
+            border-collapse: collapse; /* 테이블 경계선 합치기 */
+        }
+
+        th, td {
+            border: 1px solid #ccc; /* 셀 경계선 설정 */
+            padding: 10px; /* 셀 안쪽 여백 */
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+            width: 50%; /* 각 칸의 폭을 50%로 설정 */
+        }
+
+        th {
+            background-color: #f2f2f2; /* 헤더 배경 색상 */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* 짝수 행 배경 색상 */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f9f9f9; /* 짝수 행 배경 색상 */
+        }
+
+        tr:hover {
+            background-color: #e0f7fa; /* 행에 마우스를 올릴 때 배경 색상 변경 */
+        }
+
+        /* 추가적인 스타일 */
+        .info-table {
+            margin: 20px 0; /* 테이블 위 아래 여백 */
+        }
+
+        .info-title {
+            font-weight: bold; /* 제목 강조 */
+        }
+        .management-links {
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 정렬 */
+            align-items: center; /* 수평 중앙 정렬 */
+            margin-top: 20px; /* 위쪽 여백 */
+            background-color: rgba(255, 255, 255, 0.9); /* 배경색과 투명도 */
+            border-radius: 10px; /* 모서리 둥글게 */
+            padding: 20px; /* 내부 여백 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+            width: 300px; /* 박스 너비 */
+            margin: 20px auto; /* 위쪽 여백과 중앙 정렬 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+
+        .management-links p {
+            font-weight: bold; /* 글씨 굵게 */
+            margin-bottom: 10px; /* 아래쪽 여백 */
+        }
+
+        .management-links a {
+            color: green; /* 링크 색상 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+            margin: 5px 0; /* 링크 사이 여백 */
+        }
+
+        .management-links a:hover {
+            text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
+        }
+
+    </style>
+    <link href="header.css" rel="stylesheet" />
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <a href="/">
+            <img src="img/logo.png" alt="로고">
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li class="sub-menu">
+                <a href="/History" onmouseover="showSubMenu(event, 'parkSubMenu')" onmouseout="hideSubMenu('parkSubMenu')">공원 소개</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Tyrannosaurus" onmouseover="showSubMenu(event, 'tyrannoSubMenu')" onmouseout="hideSubMenu('tyrannoSubMenu')">티라노사우루스</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Mosasaurus" onmouseover="showSubMenu(event, 'mossaSubMenu')" onmouseout="hideSubMenu('mossaSubMenu')">모사사우루스</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Spinosaurus" onmouseover="showSubMenu(event, 'spinoSubMenu')" onmouseout="hideSubMenu('spinoSubMenu')">스피노사우루스</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Triceratops" onmouseover="showSubMenu(event, 'treeSubMenu')" onmouseout="hideSubMenu('treeSubMenu')">트리케라톱스</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Pteranodon" onmouseover="showSubMenu(event, 'pterraSubMenu')" onmouseout="hideSubMenu('pterraSubMenu')" onfocus="showSubMenu(event, 'pterraSubMenu')" onblur="hideSubMenu('pterraSubMenu')">프테라노돈</a>
+            </li>
+            <li class="sub-menu">
+                <a href="/Employee" onmouseover="showSubMenu(event, 'staffSubMenu')" onmouseout="hideSubMenu('staffSubMenu')">직원 소개</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- 버튼 영역 -->
+    <div class="header-container">
+        <span id="employeeInfoButton" style="display:none"><a href="/myInfo">내정보</a></span>
+        <span id="loginButton" style="display:none"><a href="/login">로그인</a></span>
+        <span>|</span>
+        <span id="signupButton" style="display:none"><a href="/signup">회원가입</a></span>
+        <span id="logoutButton" style="display:none"><a href="/api/logout">로그아웃</a></span>
+    </div>
+</header>
+
+<h3>로그인한 사용자의 정보</h3>
+<hr>
+
+<div class="table-container">
+    <table class="info-table">
+        <tbody>
+        <tr>
+            <th class="info-title">아이디 (memberName)</th>
+            <td th:text="${member.memberName}"></td>
+        </tr>
+        <tr>
+            <th class="info-title">고유번호 (id)</th>
+            <td th:text="${member.id}"></td>
+        </tr>
+        <tr>
+            <th class="info-title">비밀번호</th>
+            <td th:text="${member.password}"></td>
+        </tr>
+        <tr>
+            <th class="info-title">역할</th>
+            <td th:text="${member.role}"></td>
+        </tr>
+        <tr>
+            <th class="info-title">이름</th>
+            <td th:text="${member.name}"></td>
+        </tr>
+        <tr>
+            <th class="info-title">이메일</th>
+            <td th:text="${member.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- PARKMANAGER 역할을 갖는다면 이 글이 보임 -->
+<div class="management-links">
+    <p>공원 관리링크</p>
+    <a href="/employees">Employees</a><br>
+    <a href="/dinosaurs">Dinosaurs</a>
+</div>
+
+<script type="text/javascript" src="login.js"></script>
+</body>
+</html>

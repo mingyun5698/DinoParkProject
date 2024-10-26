@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+
+<script>
+	function passwordValidation() {
+
+		let memberName = document.getElementById("memberName").value;
+		let password = document.getElementById("password").value;
+
+		let check = /(?=.{8,})/;
+
+		if (check.test(password)) {
+			return true;
+		} else {
+			alert("비밀번호는 최소 8 자리 입니다.");
+			return false;
+		}
+
+	}
+
+	// 회원가입 실패 시에 alert 창을 띄우는 함수
+
+</script>
+<link href="signup.css" rel="stylesheet">
+<body>
+<!--스프링 서버에서는 id가 아닌 name으로 설정해주어야 인식함-->
+<div>
+	<div>SignUp</div>
+
+	<!-- JavaScript로 회원가입 실패 시 alert 창 띄우기 -->
+
+	<form method="POST" action="/api/signup" onsubmit="return passwordValidation()">
+		<div>MemberName</div>
+		<input type="text" id="memberName" name="memberName" placeholder="아이디">
+
+		<div>Password</div>
+		<input type="password" id="password" name="password" placeholder="비밀번호">
+
+		<div>Name</div>
+		<input type="text" id="name" name="name" placeholder="이름">
+
+		<div>Email</div>
+		<input type="email" id="email" name="email" placeholder="이메일">
+
+		<div>Age</div>
+		<input type="number" id="age" name="age" placeholder="나이">
+
+		<!--        <div>Career</div>-->
+		<input type="hidden" id="career" name="career" placeholder="경력" value="0" >
+
+		<!--        <div>Salary</div>-->
+		<input type="hidden" id="salary" name="salary" placeholder="경력" value="0" >
+		<input type="hidden" id="morningTask" name="morningTask" placeholder="경력" value="" >
+		<input type="hidden" id="afternoonTask" name="afternoonTask" placeholder="경력" value="" >
+
+
+		<input type="radio" name="role" value="USER" checked>이용자
+		<input type="radio" name="role" value="PARKMANAGER">관리자
+		<input type="radio" name="role" value="SECURITYOFFICER">보안팀
+		<input type="radio" name="role" value="VETERINARIAN">수의사
+		<input type="radio" name="role" value="GUIDE">가이드
+		<input type="radio" name="role" value="ZOOKEEPER">사육사
+
+		<input type="submit" name="submit" value="회원 가입">
+	</form>
+
+</div>
+
+<script>
+	function validateForm() {
+		var radios = document.getElementsByName("role");
+		var isChecked = false;
+
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].checked) {
+				isChecked = true;
+				break;
+			}
+		}
+
+		if (!isChecked) {
+			alert("하나 이상의 역할을 선택해주세요.");
+			return false;
+		}
+
+		return true;
+	}
+</script>
+
+</body>
+</html>
